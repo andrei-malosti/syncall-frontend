@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="#F8F9FA"
+    tools:context=".ClientRegisterActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Novo Atendente"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            android:gravity="center"
+            android:layout_marginBottom="32dp" />
+
+        <TextView
+            android:id="@+id/textViewAttendantRegisterName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nome do Atendente"
+            android:textColor="#666666"
+            android:textStyle="bold"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/textAttendantErrorName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#D32F2F"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            tools:text="O nome é obrigatório"
+            android:layout_marginBottom="4dp" />
+
+        <EditText
+            android:id="@+id/editAttendantRegisterName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:textColor="@color/black"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:id="@+id/textViewAttendantRegisterEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Email do Atendente"
+            android:textColor="#666666"
+            android:textStyle="bold"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/textAttendantErrorEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#D32F2F"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            tools:text="Formato de e-mail inválido"
+            android:layout_marginBottom="4dp" />
+
+        <EditText
+            android:id="@+id/editAttendantRegisterEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:ems="10"
+            android:textColor="@color/black"
+            android:inputType="textEmailAddress"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/textViewClientRegisterWarning"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Um email com as credenciais para login será enviado automaticamente ao atendente."
+            android:textColor="#E65100"
+            android:textStyle="italic"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:layout_marginBottom="32dp" />
+
+        <Button
+            android:id="@+id/buttonSaveAttendant"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="56dp"
+            android:onClick="attendantRegister"
+            android:text="Cadastrar Atendente"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:backgroundTint="#1565C0"
+            android:textColor="#FFFFFF"/>
+
+    </LinearLayout>
+</ScrollView>
