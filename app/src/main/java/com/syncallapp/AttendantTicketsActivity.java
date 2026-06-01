@@ -24,7 +24,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TicketActivity extends AppCompatActivity {
+public class AttendantTicketsActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private TicketAdapter adapter;
@@ -33,14 +33,13 @@ public class TicketActivity extends AppCompatActivity {
     private int currentPage = 0;
     private boolean isLoading = false;
     private boolean isLastPage = false;
-
     private TextView textEmptyState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_ticket);
+        setContentView(R.layout.activity_attendant_tickets);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -72,7 +71,7 @@ public class TicketActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         adapter = new TicketAdapter(selectedTicket -> {
-            Intent intent = new Intent(TicketActivity.this, TicketDetailsActivity.class);
+            Intent intent = new Intent(AttendantTicketsActivity.this, TicketDetailsActivity.class);
             intent.putExtra("TICKET_ID", selectedTicket.getId());
             startActivity(intent);
         });
@@ -103,7 +102,7 @@ public class TicketActivity extends AppCompatActivity {
     private void loadTickets() {
         isLoading = true;
 
-        api.getTickets(currentPage, 20).enqueue(new Callback<PageResponse<TicketResponse>>() {
+        api.getAttendantTickets(currentPage, 20).enqueue(new Callback<PageResponse<TicketResponse>>() {
             @Override
             public void onResponse(Call<PageResponse<TicketResponse>> call, Response<PageResponse<TicketResponse>> response) {
                 isLoading = false;

@@ -51,6 +51,10 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.TicketView
             listener.onTicketClick(ticket);
         });
     }
+    public void clearTickets() {
+        this.tickets.clear();
+        notifyDataSetChanged();
+    }
 
     @Override
     public int getItemCount() {

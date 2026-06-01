@@ -15,6 +15,23 @@
         android:theme="@style/Theme.Syncallapp"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ChatActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout" />
+            android:exported="false" />
+        <activity
+            android:name=".AttendantTicketsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AttendantTicketsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ClientTicketActivity"
+            android:exported="false" />
+        <activity
+            android:name=".TicketRegisterActivity"
+            android:exported="false" />
+        <activity
             android:name=".AttendantRegisterActivity"
             android:exported="false" />
         <activity

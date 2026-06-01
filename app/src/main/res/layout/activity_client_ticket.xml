@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:background="#F8F9FA"
-    tools:context=".TicketDetailsActivity">
+    tools:context=".ClientTicketActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -42,33 +42,16 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Cliente"
-                    android:textColor="#888888"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/textViewClientName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:textColor="#333333"
-                    android:textSize="18sp"
-                    tools:text="" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:text="Data de Abertura"
                     android:textColor="#888888"
                     android:textSize="12sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/textViewDate"
+                    android:id="@+id/textViewDateTicket"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginBottom="12dp"
                     android:textColor="#333333"
                     android:textSize="18sp"
                     tools:text="" />
@@ -82,7 +65,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/textViewStatus"
+                    android:id="@+id/textViewStatusTicket"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
@@ -90,6 +73,53 @@
                     android:textSize="18sp"
                     android:textStyle="bold"
                     tools:text="" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#EEEEEE"
+                    android:layout_marginBottom="16dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cliente"
+                    android:textColor="#888888"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textViewClientTicketName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#333333"
+                    android:textSize="18sp"
+                    tools:text="" />
+
+                <TextView
+                    android:id="@+id/textViewAttendantNameText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:text="Atendente Responsável"
+                    android:textColor="#888888"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textViewAttendantName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#333333"
+                    android:visibility="gone"
+                    android:textSize="18sp"
+                    tools:text="" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#EEEEEE"
+                    android:layout_marginBottom="16dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -100,7 +130,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/textViewDescription"
+                    android:id="@+id/textViewDescriptionTicket"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="#555555"
@@ -111,27 +141,12 @@
         </com.google.android.material.card.MaterialCardView>
 
         <Button
-            android:id="@+id/buttonVerChat"
+            android:id="@+id/buttonVerTicketChat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="56dp"
             android:text="Ver chat"
-            android:visibility="gone"
-            android:onClick="openChat"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:backgroundTint="#1565C0"
-            android:textColor="#FFFFFF" />
-
-
-        <Button
-            android:id="@+id/buttonAtenderChamado"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="56dp"
-            android:text="Atender chamado"
-            android:visibility="gone"
-            android:onClick="assignTicket"
+            android:onClick="openClientChat"
             android:textSize="16sp"
             android:textStyle="bold"
             android:backgroundTint="#1565C0"
@@ -142,8 +157,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="56dp"
-            android:text="Concluir Chamado"
-            android:visibility="gone"
+            android:text="Concluir chamado"
             android:textSize="16sp"
             android:textStyle="bold"
             android:backgroundTint="#1565C0"

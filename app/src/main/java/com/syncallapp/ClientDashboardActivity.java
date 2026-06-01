@@ -1,12 +1,17 @@
 package com.syncallapp;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.syncallapp.network.RetrofitUser;
+import com.syncallapp.service.SyncallApiRoutes;
 
 public class ClientDashboardActivity extends AppCompatActivity {
 
@@ -21,4 +26,16 @@ public class ClientDashboardActivity extends AppCompatActivity {
             return insets;
         });
     }
+
+    public void ticketRegisterPage(View view){
+        Intent intent = new Intent(ClientDashboardActivity.this, TicketRegisterActivity.class);
+        startActivity(intent);
+    }
+
+    public void clientTicketPage(View view){
+        Intent intent = new Intent(ClientDashboardActivity.this, ClientTicketActivity.class);
+        startActivity(intent);
+    }
+
+
 }

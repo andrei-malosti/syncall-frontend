@@ -41,12 +41,26 @@
             android:layout_height="wrap_content"
             android:minHeight="64dp"
             android:onClick="findTicketsPage"
-            android:text="Ver chamados"
+            android:text="Ver chamados em aberto"
             android:textSize="16sp"
             android:textStyle="bold"
             android:backgroundTint="#1565C0"
             android:textColor="#FFFFFF"
             android:layout_marginBottom="16dp" />
+
+        <Button
+            android:id="@+id/buttonMyTickets"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="64dp"
+            android:onClick="myTicketsPage"
+            android:text="Ver meus chamados"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:backgroundTint="#1565C0"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="16dp" />
+
 
         <Button
             android:id="@+id/buttonReport"
@@ -62,6 +76,7 @@
             android:layout_marginBottom="24dp" />
 
         <View
+            android:id="@+id/viewSeparator"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#E0E0E0"

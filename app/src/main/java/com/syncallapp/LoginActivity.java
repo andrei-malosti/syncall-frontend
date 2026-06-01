@@ -63,11 +63,13 @@ public class LoginActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     String token = response.body().getToken();
                     String role = extractRole(token);
+                    Long userId = extractUserId(token);
 
                     SharedPreferences prefs = getSharedPreferences("SyncallPrefs", Context.MODE_PRIVATE);
                     prefs.edit()
                             .putString("TOKEN_JWT", token)
                             .putString("USER_ROLE", role)
+                            .putLong("USER_ID", userId)
                             .apply();
 
                     Toast.makeText(LoginActivity.this, "Login feito com sucesso!", Toast.LENGTH_SHORT).show();
@@ -105,6 +107,25 @@ public class LoginActivity extends AppCompatActivity {
             JSONObject jsonObject = new JSONObject(jsonPayload);
 
             return jsonObject.getString("scope");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private Long extractUserId(String token) {
+        try {
+            String[] tokenPieces = token.split("\\.");
+            if (tokenPieces.length < 2) return null;
+
+            String payloadBase64 = tokenPieces[1];
+
+            byte[] decodeBytes = Base64.decode(payloadBase64, Base64.URL_SAFE);
+            String jsonPayload = new String(decodeBytes, "UTF-8");
+            JSONObject jsonObject = new JSONObject(jsonPayload);
+
+            return Long.valueOf(jsonObject.getString("userId"));
 
         } catch (Exception e) {
             e.printStackTrace();
