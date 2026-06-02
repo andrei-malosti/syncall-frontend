@@ -15,10 +15,12 @@
         android:theme="@style/Theme.Syncallapp"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".ChatActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout" />
+            android:name=".ReportDetailsActivity"
             android:exported="false" />
+        <activity
+            android:name=".ChatActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".AttendantTicketsActivity"
             android:exported="false" />

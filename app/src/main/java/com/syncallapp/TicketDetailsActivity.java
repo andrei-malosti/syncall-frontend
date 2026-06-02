@@ -19,6 +19,10 @@ import com.syncallapp.dto.TicketResponse;
 import com.syncallapp.network.RetrofitUser;
 import com.syncallapp.service.SyncallApiRoutes;
 
+// Imports necessários para formatar a data
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -69,14 +73,15 @@ public class TicketDetailsActivity extends AppCompatActivity {
         TextView viewStatus = findViewById(R.id.textViewStatus);
         Button buttonAssignTicket = findViewById(R.id.buttonAtenderChamado);
         Button buttonOpenChat = findViewById(R.id.buttonVerChat);
-        Button buttonConcludeTicket = findViewById(R.id.buttonConcluirChamado);
-
 
         api.getTicket(id).enqueue(new Callback<TicketResponse>() {
             @Override
             public void onResponse(Call<TicketResponse> call, Response<TicketResponse> response) {
                 if(response.isSuccessful() && response.body() != null){
                     TicketResponse ticket = response.body();
+
+                    String status = ticket.getTicketStatus().toString();
+
                     if(userRole.contains("ATTENDANT") || userRole.contains("MANAGER")){
                         if(ticket.getTicketStatus().toString().equals("OPEN"))
                             buttonAssignTicket.setVisibility(View.VISIBLE);
@@ -85,10 +90,18 @@ public class TicketDetailsActivity extends AppCompatActivity {
                         buttonOpenChat.setVisibility(View.VISIBLE);
                     }
 
+                    if(status.equals("IN_PROGRESS")) {
+                        status = "EM ANDAMENTO";
+                    } else if(status.equals("OPEN")){
+                        status = "CHAMADO ABERTO";
+                    }
+
                     viewDescription.setText(ticket.getDescription());
-                    viewDate.setText(ticket.getCreatedAt());
+
+                    viewDate.setText(formatarData(ticket.getCreatedAt()));
+
                     viewClientName.setText(ticket.getClientName());
-                    viewStatus.setText("Status do chamado = " + ticket.getTicketStatus().toString());
+                    viewStatus.setText("Status do chamado = " + status);
                 }
             }
 
@@ -122,4 +135,16 @@ public class TicketDetailsActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private String formatarData(String dataIso) {
+        if (dataIso == null || dataIso.isEmpty()) {
+            return "Data não disponível";
+        }
+        try {
+            LocalDateTime data = LocalDateTime.parse(dataIso);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            return data.format(formatter);
+        } catch (Exception e) {
+            return dataIso;
+        }
+    }
 }

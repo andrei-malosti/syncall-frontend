@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -20,6 +21,7 @@ import com.syncallapp.dto.LoginRequest;
 import com.syncallapp.network.RetrofitUser;
 import com.syncallapp.service.SyncallApiRoutes;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import retrofit2.Call;
@@ -28,6 +30,9 @@ import retrofit2.Callback;
 public class LoginActivity extends AppCompatActivity {
 
     private SyncallApiRoutes api;
+
+    private TextView textErrorEmail;
+    private TextView textErrorPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +44,8 @@ public class LoginActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        textErrorEmail = findViewById(R.id.textErrorEmailLogin);
+        textErrorPassword = findViewById(R.id.textErrorSenhaLogin);
         api = RetrofitUser.getUser(LoginActivity.this).create(SyncallApiRoutes.class);
     }
 
@@ -54,6 +61,9 @@ public class LoginActivity extends AppCompatActivity {
 
         String email = editEmail.getText().toString().trim();
         String password = editSenha.getText().toString().trim();
+
+        textErrorEmail.setVisibility(View.GONE);
+        textErrorPassword.setVisibility(View.VISIBLE);
 
         LoginRequest loginRequest = new LoginRequest(email, password);
 
@@ -74,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     Toast.makeText(LoginActivity.this, "Login feito com sucesso!", Toast.LENGTH_SHORT).show();
 
-                    if(role != null && (role.contains("ATTENDANT") || role.contains("MANAGER"))){
+                    if (role != null && (role.contains("ATTENDANT") || role.contains("MANAGER"))) {
                         Intent intent = new Intent(LoginActivity.this, AttendantDashboardActivity.class);
                         startActivity(intent);
                         finish();
@@ -85,7 +95,42 @@ public class LoginActivity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 } else {
-                    Toast.makeText(LoginActivity.this, "Falha no Login (Erro " + response.code() + ")", Toast.LENGTH_LONG).show();
+                    if (response.errorBody() != null) {
+                        try {
+                            String errorJson = response.errorBody().string();
+                            JSONObject jsonObject = new JSONObject(errorJson);
+
+                            if (jsonObject.has("fields") && !jsonObject.isNull("fields")) {
+                                JSONArray fieldsArray = jsonObject.getJSONArray("fields");
+
+                                for (int i = 0; i < fieldsArray.length(); i++) {
+                                    String fieldError = fieldsArray.getString(i);
+
+                                    String[] partes = fieldError.split(":");
+
+                                    if (partes.length == 2) {
+                                        String campo = partes[0].trim();
+                                        String mensagem = partes[1].trim();
+
+                                        if (campo.equals("email")) {
+                                            textErrorEmail.setText(mensagem);
+                                            textErrorEmail.setVisibility(View.VISIBLE);
+                                        } else if (campo.equals("password")) {
+                                            textErrorPassword.setText(mensagem);
+                                            textErrorPassword.setVisibility(View.VISIBLE);
+                                        }
+                                    }
+                                }
+                            } else if (jsonObject.has("message") && !jsonObject.isNull("message")) {
+                                String mensagemDeErro = jsonObject.getString("message");
+                                Toast.makeText(LoginActivity.this, mensagemDeErro, Toast.LENGTH_LONG).show();
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Toast.makeText(LoginActivity.this, "Erro ao processar dados (" + response.code() + ")", Toast.LENGTH_SHORT).show();
+                        }
+                    }
                 }
             }
             @Override

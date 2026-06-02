@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -21,6 +22,7 @@ import com.syncallapp.dto.RegisterRequest;
 import com.syncallapp.network.RetrofitUser;
 import com.syncallapp.service.SyncallApiRoutes;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import retrofit2.Call;
@@ -30,6 +32,11 @@ import retrofit2.Response;
 public class RegisterActivity extends AppCompatActivity {
 
     private SyncallApiRoutes api;
+    private TextView textErrorName;
+    private TextView textErrorEmail;
+    private TextView textErrorPassword;
+    private TextView textErrorCompanyName;
+    private TextView textErrorCompanyCnpj;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +49,11 @@ public class RegisterActivity extends AppCompatActivity {
             api = RetrofitUser.getUser(this).create(SyncallApiRoutes.class);
             return insets;
         });
+        textErrorName = findViewById(R.id.textErrorNome);
+        textErrorEmail = findViewById(R.id.textErrorEmail);
+        textErrorPassword = findViewById(R.id.textErrorSenha);
+        textErrorCompanyName = findViewById(R.id.textErrorNomeEmpresa);
+        textErrorCompanyCnpj = findViewById(R.id.textErrorCnpj);
     }
 
     public void register(View view){
@@ -87,7 +99,51 @@ public class RegisterActivity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 } else {
-                    Toast.makeText(RegisterActivity.this, "Falha no Registro (Erro " + response.code() + ")", Toast.LENGTH_LONG).show();
+                    if (response.errorBody() != null) {
+                        try {
+                            String errorJson = response.errorBody().string();
+                            JSONObject jsonObject = new JSONObject(errorJson);
+
+                            if (jsonObject.has("fields") && !jsonObject.isNull("fields")) {
+                                JSONArray fieldsArray = jsonObject.getJSONArray("fields");
+
+                                for (int i = 0; i < fieldsArray.length(); i++) {
+                                    String fieldError = fieldsArray.getString(i);
+
+                                    String[] partes = fieldError.split(":");
+
+                                    if (partes.length == 2) {
+                                        String campo = partes[0].trim();
+                                        String mensagem = partes[1].trim();
+
+                                        if (campo.equals("email")) {
+                                            textErrorEmail.setText(mensagem);
+                                            textErrorEmail.setVisibility(View.VISIBLE);
+                                        } else if (campo.equals("password")) {
+                                            textErrorPassword.setText(mensagem);
+                                            textErrorPassword.setVisibility(View.VISIBLE);
+                                        } else if(campo.equals("name")) {
+                                            textErrorName.setText(mensagem);
+                                            textErrorName.setVisibility(View.VISIBLE);
+                                        } else if (campo.equals("company.name")) {
+                                            textErrorCompanyName.setText(mensagem);
+                                            textErrorCompanyName.setVisibility(View.VISIBLE);
+                                        } else if (campo.equals("company.cnpj")) {
+                                            textErrorCompanyCnpj.setText(mensagem);
+                                            textErrorCompanyCnpj.setVisibility(View.VISIBLE);
+                                        }
+                                    }
+                                }
+                            } else if (jsonObject.has("message") && !jsonObject.isNull("message")) {
+                                String mensagemDeErro = jsonObject.getString("message");
+                                Toast.makeText(RegisterActivity.this, mensagemDeErro, Toast.LENGTH_LONG).show();
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Toast.makeText(RegisterActivity.this, "Erro ao processar dados (" + response.code() + ")", Toast.LENGTH_SHORT).show();
+                        }
+                    }
                 }
             }
             @Override

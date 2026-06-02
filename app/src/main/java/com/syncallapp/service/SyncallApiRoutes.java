@@ -10,6 +10,7 @@ import com.syncallapp.dto.MessageRequest;
 import com.syncallapp.dto.MessageResponse;
 import com.syncallapp.dto.PageResponse;
 import com.syncallapp.dto.RegisterRequest;
+import com.syncallapp.dto.ReportResponse;
 import com.syncallapp.dto.TicketRegister;
 import com.syncallapp.dto.TicketResponse;
 import com.syncallapp.dto.UserRegisterRequest;
@@ -63,5 +64,11 @@ public interface SyncallApiRoutes {
 
     @POST("/messages/chat/{chatId}")
     Call<MessageResponse> createTicketMessages(@Path("chatId") Long chatId, @Body MessageRequest messageRegister);
+
+    @PATCH("/tickets/conclude")
+    Call<TicketResponse> concludeTicket();
+
+    @GET("/reports")
+    Call<PageResponse<ReportResponse>> getAllReports();
 
 }

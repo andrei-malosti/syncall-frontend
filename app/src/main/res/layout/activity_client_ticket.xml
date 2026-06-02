@@ -158,10 +158,22 @@
             android:layout_height="wrap_content"
             android:minHeight="56dp"
             android:text="Concluir chamado"
+            android:onClick="concludeTicket"
             android:textSize="16sp"
             android:textStyle="bold"
             android:backgroundTint="#1565C0"
             android:textColor="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/textErrorConclude"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#D32F2F"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            tools:text="Chamado deve estar em progresso"
+            android:layout_marginBottom="4dp" />
 
     </LinearLayout>
 </ScrollView>

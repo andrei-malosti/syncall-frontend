@@ -43,9 +43,17 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.TicketView
     public void onBindViewHolder(@NonNull TicketViewHolder holder, int position) {
         TicketResponse ticket = tickets.get(position);
 
+        String status = ticket.getTicketStatus().toString();
+
+        if(status.equals("IN_PROGRESS")) {
+            status = "EM ANDAMENTO";
+        } else if(status.equals("OPEN")){
+            status = "CHAMADO ABERTO";
+        }
+
         holder.textClientName.setText("Usuario: " + ticket.getClientName());
         holder.textDescription.setText(ticket.getDescription());
-        holder.textStatus.setText(ticket.getTicketStatus().toString());
+        holder.textStatus.setText(status);
 
         holder.itemView.setOnClickListener(v -> {
             listener.onTicketClick(ticket);
